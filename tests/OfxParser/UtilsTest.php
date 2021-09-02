@@ -55,30 +55,38 @@ class UtilsTest extends TestCase
         $expectedDateTime = new \DateTime('2008-10-05 13:22:00');
 
         // Test OFX Date Format YYYYMMDDHHMMSS.XXX[gmt offset:tz name]
-        $DateTimeOne = Utils::createDateTimeFromStr('20081005132200.124[-5:EST]');
-        self::assertEquals($expectedDateTime->getTimestamp(), $DateTimeOne->getTimestamp());
+        $dateTime = Utils::createDateTimeFromStr('20081005082200.124[-5:EST]');
+        self::assertEquals($expectedDateTime->getTimestamp(), $dateTime->getTimestamp());
+
+        // Test OFX Date Format YYYYMMDDHHMMSS.XXX[gmt offset:tz name]
+        $dateTime = Utils::createDateTimeFromStr('20081005102200.124[-3:GMT]');
+        self::assertEquals($expectedDateTime->getTimestamp(), $dateTime->getTimestamp());
+
+        // Test OFX Date Format YYYYMMDDHHMMSS.XXX[gmt offset:tz name]
+        $dateTime = Utils::createDateTimeFromStr('20081005132200.124[-0:UTC]');
+        self::assertEquals($expectedDateTime->getTimestamp(), $dateTime->getTimestamp());
 
         // Test YYYYMMDD
-        $DateTimeTwo = Utils::createDateTimeFromStr('20081005');
-        self::assertEquals($expectedDateTime->format('Y-m-d'), $DateTimeTwo->format('Y-m-d'));
+        $dateTime = Utils::createDateTimeFromStr('20081005');
+        self::assertEquals($expectedDateTime->format('Y-m-d'), $dateTime->format('Y-m-d'));
 
         // Test YYYYMMDDHHMMSS
-        $DateTimeThree = Utils::createDateTimeFromStr('20081005132200');
-        self::assertEquals($expectedDateTime->getTimestamp(), $DateTimeThree->getTimestamp());
+        $dateTime = Utils::createDateTimeFromStr('20081005132200');
+        self::assertEquals($expectedDateTime->getTimestamp(), $dateTime->getTimestamp());
 
         // Test YYYYMMDDHHMMSS.XXX
-        $DateTimeFour = Utils::createDateTimeFromStr('20081005132200.124');
-        self::assertEquals($expectedDateTime->getTimestamp(), $DateTimeFour->getTimestamp());
+        $dateTime = Utils::createDateTimeFromStr('20081005132200.124');
+        self::assertEquals($expectedDateTime->getTimestamp(), $dateTime->getTimestamp());
 
         // Test empty datetime
-        $DateTimeFive = Utils::createDateTimeFromStr('');
-        self::assertEquals(null, $DateTimeFive);
+        $dateTime = Utils::createDateTimeFromStr('');
+        self::assertEquals(null, $dateTime);
 
         // Test DateTime factory callback
         Utils::$fnDateTimeFactory = function($format) { return new MyDateTime($format); };
-        $DateTimeSix = Utils::createDateTimeFromStr('20081005');
-        self::assertEquals($expectedDateTime->format('Y-m-d'), $DateTimeSix->format('Y-m-d'));
-        self::assertEquals('OfxParserTest\\MyDateTime', get_class($DateTimeSix));
+        $dateTime = Utils::createDateTimeFromStr('20081005');
+        self::assertEquals($expectedDateTime->format('Y-m-d'), $dateTime->format('Y-m-d'));
+        self::assertEquals('OfxParserTest\\MyDateTime', get_class($dateTime));
         Utils::$fnDateTimeFactory = null;
     }
 }

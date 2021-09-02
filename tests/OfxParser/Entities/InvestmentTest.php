@@ -63,6 +63,9 @@ class InvestmentTest extends TestCase
      */
     public function testLoadOfxException()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('loadOfx method not defined in class "OfxParser\Entities\Investment"');
+
         $xml = new SimpleXMLElement('<xml></xml>');
         $entity = new InvestmentNoLoadOfx();
         $entity->loadOfx($xml);

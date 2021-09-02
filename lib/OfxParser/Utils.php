@@ -35,12 +35,12 @@ class Utils
         if (!isset($dateString) || trim($dateString) === '') {
             return null;
         }
-        
+
         $regex = '/'
             . "(\d{4})(\d{2})(\d{2})?"     // YYYYMMDD             1,2,3
             . "(?:(\d{2})(\d{2})(\d{2}))?" // HHMMSS   - optional  4,5,6
             . "(?:\.(\d{3}))?"             // .XXX     - optional  7
-            . "(?:\[(-?\d+)\:(\w{3}\]))?"  // [-n:TZ]  - optional  8,9
+            . "(?:\[(-?\d+)\:(\w{3})\])?"  // [-n:TZ]  - optional  8,9
             . '/';
 
         if (preg_match($regex, $dateString, $matches)) {
@@ -52,13 +52,22 @@ class Utils
             $sec = isset($matches[6]) ? $matches[6] : 0;
 
             $format = $year . '-' . $month . '-' . $day . ' ' . $hour . ':' . $min . ':' . $sec;
+            $timezone = 'UTC';
+            if (!empty($matches[8]) && !empty($matches[9])) {
+                if ($matches[9] === 'GMT') {
+                    $timezone =  $matches[9] . $matches[8];
+                } else {
+                    $timezone = $matches[9];
+                }
+            }
 
             try {
                 $dt = null;
                 if (is_callable(static::$fnDateTimeFactory)) {
                     $dt = call_user_func(static::$fnDateTimeFactory, $format);
                 } else {
-                    $dt = new \DateTime($format);
+                    $tz = new \DateTimeZone($timezone);
+                    $dt = new \DateTime($format, $tz);
                 }
 
                 return $dt;
