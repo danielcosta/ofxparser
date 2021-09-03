@@ -216,6 +216,7 @@ HERE
             'ofxdata-bb.ofx' => [dirname(__DIR__).'/fixtures/ofxdata-bb.ofx'],
             'ofxdata-bb-two-stmtrs.ofx' => [dirname(__DIR__).'/fixtures/ofxdata-bb-two-stmtrs.ofx'],
             'ofxdata-credit-card.ofx' => [dirname(__DIR__).'/fixtures/ofxdata-credit-card.ofx'],
+            'ofxdata-credit-card-bradesco.ofx' => [dirname(__DIR__).'/fixtures/ofxdata-credit-card-bradesco.ofx'],
             'ofxdata-bpbfc.ofx' => [dirname(__DIR__).'/fixtures/ofxdata-bpbfc.ofx'],
             'ofxdata-memoWithQuotes.ofx' => [dirname(__DIR__).'/fixtures/ofxdata-memoWithQuotes.ofx'],
             'ofxdata-emptyDateTime.ofx' => [dirname(__DIR__).'/fixtures/ofxdata-emptyDateTime.ofx'],
